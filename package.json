@@ -1,0 +1,20 @@
+{
+  "name": "darshanam-2026",
+  "private": true,
+  "version": "1.0.0",
+  "homepage": "https://anitt-sama.github.io/Darshananam-2026",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "page-flip": "^2.0.7"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "vite": "^8.2.0"
+  }
+}

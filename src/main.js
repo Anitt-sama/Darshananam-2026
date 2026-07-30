@@ -1,0 +1,574 @@
+import { PageFlip } from "page-flip";
+
+const TOTAL_PAGES = 60;
+
+let pageFlip;
+let currentZoom = 1;
+
+const app = document.querySelector("#app");
+
+/* ---------------------------------------------------
+   BUILD APPLICATION
+--------------------------------------------------- */
+
+app.innerHTML = `
+<div id="viewer">
+
+    <header id="toolbar">
+
+        <div class="toolbar-left">
+
+            <button id="firstBtn" title="First Page">
+                ⏮
+            </button>
+
+            <button id="prevBtn" title="Previous Page">
+                ◀
+            </button>
+
+        </div>
+
+        <div class="toolbar-center">
+
+            <span id="pageIndicator">
+                1 / ${TOTAL_PAGES}
+            </span>
+
+        </div>
+
+        <div class="toolbar-right">
+
+            <button id="zoomOut">
+                −
+            </button>
+
+            <button id="zoomIn">
+                +
+            </button>
+
+            <button id="fullscreenBtn">
+                ⛶
+            </button>
+
+            <button id="nextBtn">
+                ▶
+            </button>
+
+            <button id="lastBtn">
+                ⏭
+            </button>
+
+        </div>
+
+    </header>
+
+    <main id="bookWrapper">
+
+        <div id="flipbook"></div>
+
+    </main>
+
+</div>
+`;
+
+const flipbook = document.getElementById("flipbook");
+const indicator = document.getElementById("pageIndicator");
+
+function getBookSize() {
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    if (w < 768) {
+
+        return {
+
+            width: Math.min(w * 0.92, 450),
+            height: Math.min(h * 0.82, 700),
+            mobile: true
+
+        };
+
+    }
+
+    return {
+
+        width: Math.min(w * 0.38, 620),
+        height: Math.min(h * 0.82, 860),
+        mobile: false
+
+    };
+
+}
+
+function createPages() {
+
+    const pages = [];
+
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+
+        const page = document.createElement("div");
+
+        page.className = "page";
+
+        page.style.background = "transparent";
+        page.style.border = "none";
+        page.style.boxShadow = "none";
+        page.style.overflow = "hidden";
+
+        const image = document.createElement("img");
+        image.style.width = "100%";
+        image.style.height = "100%";
+        image.style.objectFit = "cover";
+        image.style.display = "block";
+
+        image.draggable = false;
+
+        image.loading = "lazy";
+
+        image.src =
+            `/pages/page${String(i).padStart(3, "0")}.jpg`;
+
+        image.alt = `Page ${i}`;
+
+        page.appendChild(image);
+
+        pages.push(page);
+
+    }
+
+    return pages;
+
+}
+
+function initializeBook() {
+
+    const size = getBookSize();
+
+    flipbook.innerHTML = "";
+
+    pageFlip = new PageFlip(flipbook, {
+
+        width: size.width,
+
+        height: size.height,
+
+        minWidth: 250,
+
+        maxWidth: 900,
+
+        minHeight: 350,
+
+        maxHeight: 1200,
+
+        size: "stretch",
+
+        maxShadowOpacity: 0.45,
+
+        showCover: true,
+
+        mobileScrollSupport: true,
+
+        usePortrait: size.mobile,
+
+        autoSize: true,
+
+        startPage: 0,
+
+        clickEventForward: true,
+
+        flippingTime: 900,
+
+        drawShadow: true,
+
+        showPageCorners: true
+
+    });
+
+    pageFlip.loadFromHTML(createPages());
+
+}
+
+/* ---------------------------------------------------
+   PAGE EVENTS
+--------------------------------------------------- */
+
+function updatePageIndicator() {
+
+    if (!pageFlip) return;
+
+    const current = pageFlip.getCurrentPageIndex() + 1;
+
+    indicator.textContent = `${current} / ${TOTAL_PAGES}`;
+
+}
+
+function nextPage() {
+
+    if (pageFlip)
+        pageFlip.flipNext();
+
+}
+
+function previousPage() {
+
+    if (pageFlip)
+        pageFlip.flipPrev();
+
+}
+
+function firstPage() {
+
+    if (pageFlip)
+        pageFlip.turnToPage(0);
+
+}
+
+function lastPage() {
+
+    if (pageFlip)
+        pageFlip.turnToPage(TOTAL_PAGES - 1);
+
+}
+
+/* ---------------------------------------------------
+   TOOLBAR
+--------------------------------------------------- */
+
+document
+    .getElementById("nextBtn")
+    .addEventListener("click", nextPage);
+
+document
+    .getElementById("prevBtn")
+    .addEventListener("click", previousPage);
+
+document
+    .getElementById("firstBtn")
+    .addEventListener("click", firstPage);
+
+document
+    .getElementById("lastBtn")
+    .addEventListener("click", lastPage);
+
+/* ---------------------------------------------------
+   KEYBOARD
+--------------------------------------------------- */
+
+document.addEventListener("keydown", (event) => {
+
+    if (!pageFlip) return;
+
+    switch (event.key) {
+
+        case "ArrowRight":
+
+            pageFlip.flipNext();
+
+            break;
+
+        case "ArrowLeft":
+
+            pageFlip.flipPrev();
+
+            break;
+
+        case "Home":
+
+            pageFlip.turnToPage(0);
+
+            break;
+
+        case "End":
+
+            pageFlip.turnToPage(TOTAL_PAGES - 1);
+
+            break;
+
+    }
+
+});
+
+/* ---------------------------------------------------
+   MOUSE WHEEL
+--------------------------------------------------- */
+
+let wheelTimeout;
+
+flipbook.addEventListener("wheel", (event) => {
+
+    event.preventDefault();
+
+    clearTimeout(wheelTimeout);
+
+    wheelTimeout = setTimeout(() => {
+
+        if (event.deltaY > 0)
+            pageFlip.flipNext();
+        else
+            pageFlip.flipPrev();
+
+    }, 100);
+
+}, { passive: false });
+
+/* ---------------------------------------------------
+   ZOOM
+--------------------------------------------------- */
+
+function applyZoom() {
+
+    flipbook.style.transform = `scale(${currentZoom})`;
+flipbook.style.transformOrigin = "center center";
+
+}
+
+document
+    .getElementById("zoomIn")
+    .addEventListener("click", () => {
+
+        currentZoom = Math.min(currentZoom + 0.1, 2);
+
+        applyZoom();
+
+    });
+
+document
+    .getElementById("zoomOut")
+    .addEventListener("click", () => {
+
+        currentZoom = Math.max(currentZoom - 0.1, 0.6);
+
+        applyZoom();
+
+    });
+
+/* ---------------------------------------------------
+   FULLSCREEN
+--------------------------------------------------- */
+
+document
+    .getElementById("fullscreenBtn")
+    .addEventListener("click", () => {
+
+        const viewer =
+            document.getElementById("viewer");
+
+        if (!document.fullscreenElement) {
+
+            viewer.requestFullscreen?.();
+
+        }
+
+        else {
+
+            document.exitFullscreen?.();
+
+        }
+
+    });
+
+/* ---------------------------------------------------
+   PAGEFLIP EVENTS
+--------------------------------------------------- */
+
+function registerEvents() {
+
+    pageFlip.on("init", () => {
+
+        updatePageIndicator();
+
+        hideLoader();
+
+    });
+
+    pageFlip.on("flip", () => {
+
+        updatePageIndicator();
+
+    });
+
+    pageFlip.on("changeOrientation", () => {
+
+        updatePageIndicator();
+
+    });
+
+}
+
+
+/* ---------------------------------------------------
+   STARTUP
+--------------------------------------------------- */
+
+/* ---------------------------------------------------
+   RESPONSIVE RESIZE
+--------------------------------------------------- */
+
+let resizeTimer;
+
+window.addEventListener("resize", () => {
+
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(() => {
+
+        if (!pageFlip) return;
+
+        const currentPage = pageFlip.getCurrentPageIndex();
+
+        pageFlip.destroy();
+
+        initializeBook();
+
+        registerEvents();
+
+        pageFlip.turnToPage(currentPage);
+
+setTimeout(() => {
+    updatePageIndicator();
+}, 50);
+
+        updatePageIndicator();
+
+        applyZoom();
+
+    }, 300);
+
+});
+
+/* ---------------------------------------------------
+   TOUCH SUPPORT
+--------------------------------------------------- */
+
+let touchStartX = 0;
+
+flipbook.addEventListener("touchstart", (event) => {
+
+    touchStartX = event.changedTouches[0].clientX;
+
+});
+
+flipbook.addEventListener("touchend", (event) => {
+
+    const touchEndX = event.changedTouches[0].clientX;
+
+    const difference = touchStartX - touchEndX;
+
+    if (Math.abs(difference) < 50)
+        return;
+
+    if (difference > 0)
+        nextPage();
+    else
+        previousPage();
+
+});
+
+/* ---------------------------------------------------
+   IMAGE PROTECTION
+--------------------------------------------------- */
+
+document.addEventListener("dragstart", (event) => {
+
+    event.preventDefault();
+
+});
+
+document.addEventListener("contextmenu", (event) => {
+
+    if (event.target.tagName === "IMG") {
+
+        event.preventDefault();
+
+    }
+
+});
+
+/* ---------------------------------------------------
+   CTRL + WHEEL ZOOM
+--------------------------------------------------- */
+
+window.addEventListener("wheel", (event) => {
+
+    if (!event.ctrlKey)
+        return;
+
+    event.preventDefault();
+
+    if (event.deltaY < 0)
+        currentZoom += 0.05;
+    else
+        currentZoom -= 0.05;
+
+    currentZoom = Math.max(0.6, Math.min(currentZoom, 2));
+
+    applyZoom();
+
+}, { passive: false });
+
+/* ---------------------------------------------------
+   EXTRA SHORTCUTS
+--------------------------------------------------- */
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key === "+") {
+
+        currentZoom = Math.min(currentZoom + 0.1, 2);
+
+        applyZoom();
+
+    }
+
+    if (event.key === "-") {
+
+        currentZoom = Math.max(currentZoom - 0.1, 0.6);
+
+        applyZoom();
+
+    }
+
+    if (event.key.toLowerCase() === "f") {
+
+        document
+            .getElementById("fullscreenBtn")
+            .click();
+
+    }
+
+});
+
+/* ---------------------------------------------------
+   LOADING
+--------------------------------------------------- */
+
+function showLoader() {
+
+    flipbook.classList.add("loading");
+
+}
+
+function hideLoader() {
+
+    flipbook.classList.remove("loading");
+
+}
+
+
+/* ---------------------------------------------------
+   APPLICATION START
+--------------------------------------------------- */
+
+showLoader();
+
+initializeBook();
+
+registerEvents();
+
+updatePageIndicator();
+
+applyZoom();
+
+hideLoader();
+

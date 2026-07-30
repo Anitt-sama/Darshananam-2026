@@ -1,0 +1,398 @@
+/* ==========================================
+   RESET
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body,
+#app{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(circle at center,
+        #2b2b2b 0%,
+        #1b1b1b 45%,
+        #101010 100%);
+
+    color:#ffffff;
+}
+
+/* ==========================================
+   MAIN VIEWER
+========================================== */
+
+#viewer{
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+/* ==========================================
+   TOOLBAR
+========================================== */
+
+#toolbar{
+
+    height:68px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 24px;
+
+    background:rgba(30,30,30,.88);
+
+    backdrop-filter:blur(16px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 6px 24px rgba(0,0,0,.35);
+
+    z-index:1000;
+
+}
+
+.toolbar-left,
+.toolbar-center,
+.toolbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+#pageIndicator{
+
+    min-width:100px;
+
+    text-align:center;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+    color:#e8e8e8;
+
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+#toolbar button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#343434;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:
+        background .25s,
+        transform .2s,
+        box-shadow .25s;
+
+}
+
+#toolbar button:hover{
+
+    background:#4d4d4d;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.35);
+
+}
+
+#toolbar button:active{
+
+    transform:scale(.95);
+
+}
+
+/* ==========================================
+   BOOK AREA
+========================================== */
+
+#bookWrapper{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    padding:30px;
+
+}
+
+/* ==========================================
+   FLIPBOOK CONTAINER
+========================================== */
+
+#flipbook{
+
+    transition:
+        transform .25s ease;
+
+    transform-origin:center center;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* ==========================================
+   PAGEFLIP OVERRIDES
+========================================== */
+
+/* Remove default white backgrounds */
+
+.stf__parent,
+.stf__wrapper,
+.stf__block,
+.stf__item,
+.stf__itemInner{
+
+    background:transparent !important;
+
+}
+
+/* Remove centre seam */
+
+.stf__parent{
+
+    box-shadow:none !important;
+
+}
+
+/* Remove unwanted white page colour */
+
+.page{
+
+    width:100%;
+    height:100%;
+
+    background:transparent !important;
+
+    overflow:hidden;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* Make every page occupy full area */
+
+.page img{
+
+    display:block;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    user-select:none;
+
+    pointer-events:none;
+
+    -webkit-user-drag:none;
+
+    border:none;
+
+    box-shadow:none;
+
+}
+
+/* Improve page shadows */
+
+.stf__item{
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.35);
+
+}
+
+/* Remove white border around page */
+
+.stf__item canvas{
+
+    background:transparent !important;
+
+}
+
+/* Smooth flipping */
+
+.stf__item{
+
+    transition:
+        box-shadow .3s ease;
+
+}
+
+/* Book shadow */
+
+#flipbook{
+
+    filter:
+
+        drop-shadow(0 22px 45px rgba(0,0,0,.55));
+
+}
+
+/* Loading */
+
+.loading{
+
+    opacity:.5;
+
+    transition:.3s;
+
+}
+
+/* Hide image gaps */
+
+img{
+
+    vertical-align:middle;
+
+}
+
+/* Prevent text selection */
+
+.page,
+.page *{
+
+    user-select:none;
+
+}
+
+/* ==========================================
+   SCROLLBARS
+========================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#444;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#191919;
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width:900px){
+
+    #toolbar{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:14px;
+
+        padding:12px;
+
+        height:auto;
+
+    }
+
+    #bookWrapper{
+
+        padding:15px;
+
+    }
+
+    #toolbar button{
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+    #pageIndicator{
+
+        width:100%;
+
+        text-align:center;
+
+        order:2;
+
+    }
+
+}
+
+/* ==========================================
+   LARGE SCREENS
+========================================== */
+
+@media (min-width:1600px){
+
+    #bookWrapper{
+
+        padding:60px;
+
+    }
+
+}
