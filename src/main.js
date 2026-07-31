@@ -2,7 +2,7 @@ import "./style.css";
 import { PageFlip } from "page-flip";
 
 const TOTAL_PAGES = 60;
-
+const BASE = import.meta.env.BASE_URL;
 let pageFlip;
 let currentZoom = 1;
 
@@ -76,7 +76,7 @@ const pageHotspots = {
     47: [
   {
     type: "external",
-    url: "Yhttps://escape-room-fa8729.netlify.app/",
+    url: "https://escape-room-fa8729.netlify.app/",
     top: "72.09%",
     left: "19.93%",
     width: "29.22%",
@@ -221,7 +221,7 @@ function loadPageAspectRatio() {
 
         probe.onerror = () => resolve();
 
-        probe.src = "/pages/page001.jpg";
+        probe.src = `${BASE}pages/page001.jpg`;
 
     });
 
@@ -284,7 +284,7 @@ function createPages() {
         image.style.objectFit = "cover";
         image.style.display = "block";
         image.draggable = false;
-        image.src = `/pages/page${String(i).padStart(3, "0")}.jpg`;
+        image.src = `${BASE}pages/page${String(i).padStart(3, "0")}.jpg`;
         image.alt = `Page ${i}`;
 
         page.appendChild(image);
