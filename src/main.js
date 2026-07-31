@@ -13,6 +13,45 @@ let pageAspectRatio = 0.78;
 const app = document.querySelector("#app");
 
 /* ---------------------------------------------------
+   HOTSPOTS & HYPERLINKS CONFIGURATION
+--------------------------------------------------- */
+const pageHotspots = {
+    // Table of Contents (Page 3) - Precisely aligned to the visual layout
+    3: [
+        { type: "internal", targetPage: 2,  top: "11.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Editorial Board
+        { type: "internal", targetPage: 4,  top: "16.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Chief Editorial
+        { type: "internal", targetPage: 5,  top: "21.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Vicar's Message
+        { type: "internal", targetPage: 6,  top: "26.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Other Messages
+        { type: "internal", targetPage: 10, top: "32.0%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Theme Feature
+        { type: "internal", targetPage: 14, top: "38.0%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Doctor's Message
+        { type: "internal", targetPage: 19, top: "44.0%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Creative and Fun Zone
+        { type: "internal", targetPage: 18, top: "49.0%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Biblical Story
+        { type: "internal", targetPage: 22, top: "54.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Meet The Saint
+        { type: "internal", targetPage: 24, top: "59.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Articles and Games
+        { type: "internal", targetPage: 38, top: "66.0%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Darshanam Quest
+        { type: "internal", targetPage: 52, top: "72.0%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Drawings and Posters
+        { type: "internal", targetPage: 58, top: "78.0%", left: "8.5%", width: "82.5%", height: "3.5%" }  // Gallery
+    ],
+
+    // QR Code Pages
+    17: [{ type: "external", url: "https://example.com/qr-17", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    27: [{ type: "external", url: "https://example.com/qr-27", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    30: [{ type: "external", url: "https://example.com/qr-30", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    46: [{ type: "external", url: "https://example.com/qr-46", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    47: [{ type: "external", url: "https://example.com/qr-47", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    51: [{ type: "external", url: "https://example.com/qr-51", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    54: [{ type: "external", url: "https://example.com/qr-54", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    57: [{ type: "external", url: "https://example.com/qr-57", top: "35%", left: "35%", width: "30%", height: "30%" }],
+
+    // Social Media Links on Page 60
+    60: [
+        { type: "external", url: "https://facebook.com/yourpage", top: "45%", left: "25%", width: "15%", height: "10%" },
+        { type: "external", url: "https://instagram.com/yourpage", top: "45%", left: "42%", width: "15%", height: "10%" },
+        { type: "external", url: "https://youtube.com/yourpage", top: "45%", left: "60%", width: "15%", height: "10%" }
+    ]
+};
+
+/* ---------------------------------------------------
    BUILD APPLICATION
 --------------------------------------------------- */
 
@@ -111,8 +150,6 @@ function getBookSize() {
 
     const mobile = w < 900;
 
-    // Maximum space available for a single page, before fitting the
-    // real image aspect ratio inside it.
     const maxPageWidth = mobile
         ? Math.min(w * 0.92, 450)
         : Math.min(w * 0.55, 850);
@@ -121,8 +158,6 @@ function getBookSize() {
         ? Math.min(h * 0.82, 700)
         : Math.min(h * 0.90, 950);
 
-    // Fit a box of the real page aspect ratio inside those bounds, so the
-    // page image always fills it exactly — no cropping, no letterbox gap.
     let width = maxPageWidth;
     let height = width / pageAspectRatio;
 
@@ -149,29 +184,60 @@ function createPages() {
         page.style.border = "none";
         page.style.boxShadow = "none";
         page.style.overflow = "hidden";
-       const image = document.createElement("img");
+       
+        const image = document.createElement("img");
+        image.decoding = "async";
 
-image.decoding = "async";
+        if (i <= 4) {
+            image.loading = "eager";
+            image.fetchPriority = "high";
+        } else {
+            image.loading = "lazy";
+        }
 
-if (i <= 4) {
-    image.loading = "eager";
-    image.fetchPriority = "high";
-} else {
-    image.loading = "lazy";
-}
-                image.style.width = "100%";
+        image.style.width = "100%";
         image.style.height = "100%";
         image.style.objectFit = "cover";
         image.style.display = "block";
-
         image.draggable = false;
-
-        image.src =
-            `/pages/page${String(i).padStart(3, "0")}.jpg`;
-
+        image.src = `/pages/page${String(i).padStart(3, "0")}.jpg`;
         image.alt = `Page ${i}`;
 
         page.appendChild(image);
+
+        if (pageHotspots[i]) {
+            const overlay = document.createElement("div");
+            overlay.className = "page-overlay";
+
+            pageHotspots[i].forEach(spot => {
+                const hotspotEl = document.createElement("div");
+                hotspotEl.className = "hotspot";
+                hotspotEl.style.top = spot.top;
+                hotspotEl.style.left = spot.left;
+                hotspotEl.style.width = spot.width;
+                hotspotEl.style.height = spot.height;
+
+                if (spot.type === "internal") {
+                    hotspotEl.title = `Go to page ${spot.targetPage}`;
+                    hotspotEl.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        if (pageFlip) {
+                            pageFlip.turnToPage(spot.targetPage - 1);
+                        }
+                    });
+                } else if (spot.type === "external") {
+                    hotspotEl.title = spot.url;
+                    hotspotEl.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        window.open(spot.url, "_blank", "noopener,noreferrer");
+                    });
+                }
+
+                overlay.appendChild(hotspotEl);
+            });
+
+            page.appendChild(overlay);
+        }
 
         pages.push(page);
 
@@ -184,52 +250,35 @@ if (i <= 4) {
 function initializeBook() {
 
     const size = getBookSize();
-
-    // PageFlip sets #flipbook's CSS width to 100% in stretch/autoSize mode.
-    // Without an explicit size here, #zoomWrapper (its parent) has nothing
-    // real to resolve that 100% against, and the book collapses to its
-    // minWidth/minHeight floor instead of the size computed above.
     const totalWidth = size.mobile ? size.width : size.width * 2;
 
     zoomWrapper.style.width = `${totalWidth}px`;
     zoomWrapper.style.height = `${size.height}px`;
+
+    if (!flipbook.isConnected) {
+        zoomWrapper.appendChild(flipbook);
+    }
 
     flipbook.innerHTML = "";
 
     pageFlip = new PageFlip(flipbook, {
 
         width: size.width,
-
         height: size.height,
-
         minWidth: 250,
-
         maxWidth: 900,
-
         minHeight: 350,
-
         maxHeight: 1200,
-
         size: "stretch",
-
         maxShadowOpacity: 0.45,
-
         showCover: true,
-
         mobileScrollSupport: true,
-
         usePortrait: size.mobile,
-
         autoSize: true,
-
         startPage: 0,
-
         clickEventForward: true,
-
         flippingTime: 650,
-
         drawShadow: true,
-
         showPageCorners: true
 
     });
@@ -238,341 +287,171 @@ function initializeBook() {
 
 }
 
-/* ---------------------------------------------------
-   PAGE EVENTS
---------------------------------------------------- */
-
 function updatePageIndicator() {
 
     if (!pageFlip) return;
-
     const current = pageFlip.getCurrentPageIndex() + 1;
-
     indicator.textContent = `${current} / ${TOTAL_PAGES}`;
 
 }
 
 function nextPage() {
-
-    if (pageFlip)
-        pageFlip.flipNext();
-
+    if (pageFlip) pageFlip.flipNext();
 }
 
 function previousPage() {
-
-    if (pageFlip)
-        pageFlip.flipPrev();
-
+    if (pageFlip) pageFlip.flipPrev();
 }
 
 function firstPage() {
-
-    if (pageFlip)
-        pageFlip.turnToPage(0);
-
+    if (pageFlip) pageFlip.turnToPage(0);
 }
 
 function lastPage() {
-
-    if (pageFlip)
-        pageFlip.turnToPage(TOTAL_PAGES - 1);
-
+    if (pageFlip) pageFlip.turnToPage(TOTAL_PAGES - 1);
 }
 
-/* ---------------------------------------------------
-   TOOLBAR
---------------------------------------------------- */
-
-document
-    .getElementById("nextBtn")
-    .addEventListener("click", nextPage);
-
-document
-    .getElementById("prevBtn")
-    .addEventListener("click", previousPage);
-
-document
-    .getElementById("firstBtn")
-    .addEventListener("click", firstPage);
-
-document
-    .getElementById("lastBtn")
-    .addEventListener("click", lastPage);
-
-/* ---------------------------------------------------
-   MOUSE WHEEL
---------------------------------------------------- */
+document.getElementById("nextBtn").addEventListener("click", nextPage);
+document.getElementById("prevBtn").addEventListener("click", previousPage);
+document.getElementById("firstBtn").addEventListener("click", firstPage);
+document.getElementById("lastBtn").addEventListener("click", lastPage);
 
 let wheelTimeout;
 
 flipbook.addEventListener("wheel", (event) => {
 
-    if (event.ctrlKey) {
-        // Let the window-level ctrl+wheel handler zoom instead of flipping pages
-        return;
-    }
-
+    if (event.ctrlKey) return;
     event.preventDefault();
-
     clearTimeout(wheelTimeout);
 
     wheelTimeout = setTimeout(() => {
-
-        if (event.deltaY > 0)
-            pageFlip.flipNext();
-        else
-            pageFlip.flipPrev();
-
+        if (event.deltaY > 0) pageFlip.flipNext();
+        else pageFlip.flipPrev();
     }, 180);
 
 }, { passive: false });
 
-/* ---------------------------------------------------
-   ZOOM
---------------------------------------------------- */
-
 function applyZoom() {
-
     zoomWrapper.style.transform = `scale(${currentZoom})`;
-zoomWrapper.style.transformOrigin = "center center";
-
+    zoomWrapper.style.transformOrigin = "center center";
 }
 
-document
-    .getElementById("zoomIn")
-    .addEventListener("click", () => {
+document.getElementById("zoomIn").addEventListener("click", () => {
+    currentZoom = Math.min(currentZoom + 0.1, 2);
+    applyZoom();
+});
 
-        currentZoom = Math.min(currentZoom + 0.1, 2);
+document.getElementById("zoomOut").addEventListener("click", () => {
+    currentZoom = Math.max(currentZoom - 0.1, 0.6);
+    applyZoom();
+});
 
-        applyZoom();
-
-    });
-
-document
-    .getElementById("zoomOut")
-    .addEventListener("click", () => {
-
-        currentZoom = Math.max(currentZoom - 0.1, 0.6);
-
-        applyZoom();
-
-    });
-
-/* ---------------------------------------------------
-   FULLSCREEN
---------------------------------------------------- */
-
-document
-    .getElementById("fullscreenBtn")
-    .addEventListener("click", async () => {
-
-        const viewer = document.getElementById("viewer");
-
-        try {
-
-            if (!document.fullscreenElement) {
-
-                await viewer.requestFullscreen();
-
-            } else {
-
-                await document.exitFullscreen();
-
-            }
-
-        } catch (error) {
-
-            console.error("Fullscreen failed:", error);
-
+document.getElementById("fullscreenBtn").addEventListener("click", async () => {
+    const viewer = document.getElementById("viewer");
+    try {
+        if (!document.fullscreenElement) {
+            await viewer.requestFullscreen();
+        } else {
+            await document.exitFullscreen();
         }
-
-    });
-
-/* ---------------------------------------------------
-   PAGEFLIP EVENTS
---------------------------------------------------- */
+    } catch (error) {
+        console.error("Fullscreen failed:", error);
+    }
+});
 
 function registerEvents() {
-
     pageFlip.on("init", () => {
-
         updatePageIndicator();
-
         hideLoader();
-
     });
 
     pageFlip.on("flip", () => {
-
         updatePageIndicator();
-
     });
 
     pageFlip.on("changeOrientation", () => {
-
         updatePageIndicator();
-
     });
-
 }
-
-
-/* ---------------------------------------------------
-   STARTUP
---------------------------------------------------- */
-
-/* ---------------------------------------------------
-   RESPONSIVE RESIZE
---------------------------------------------------- */
 
 let resizeTimer;
 
+function rebuildBook() {
+
+    if (!pageFlip) return;
+    const currentPage = pageFlip.getCurrentPageIndex();
+    pageFlip.destroy();
+    initializeBook();
+    registerEvents();
+    pageFlip.turnToPage(currentPage);
+    updatePageIndicator();
+    applyZoom();
+
+}
+
 window.addEventListener("resize", () => {
-
     clearTimeout(resizeTimer);
-
-    resizeTimer = setTimeout(() => {
-
-        if (!pageFlip) return;
-
-        const currentPage = pageFlip.getCurrentPageIndex();
-
-        pageFlip.destroy();
-
-        initializeBook();
-
-        registerEvents();
-
-        pageFlip.turnToPage(currentPage);
-
-        updatePageIndicator();
-
-        applyZoom();
-
-    }, 300);
-
+    resizeTimer = setTimeout(rebuildBook, 300);
 });
 
-
-/* ---------------------------------------------------
-   IMAGE PROTECTION
---------------------------------------------------- */
+document.addEventListener("fullscreenchange", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(rebuildBook, 300);
+});
 
 document.addEventListener("dragstart", (event) => {
-
     event.preventDefault();
-
 });
 
 document.addEventListener("contextmenu", (event) => {
-
     if (event.target.tagName === "IMG") {
-
         event.preventDefault();
-
     }
-
 });
-
-/* ---------------------------------------------------
-   CTRL + WHEEL ZOOM
---------------------------------------------------- */
 
 window.addEventListener("wheel", (event) => {
 
-    if (!event.ctrlKey)
-        return;
-
+    if (!event.ctrlKey) return;
     event.preventDefault();
 
-    if (event.deltaY < 0)
-        currentZoom += 0.05;
-    else
-        currentZoom -= 0.05;
+    if (event.deltaY < 0) currentZoom += 0.05;
+    else currentZoom -= 0.05;
 
     currentZoom = Math.max(0.6, Math.min(currentZoom, 2));
-
     applyZoom();
 
 }, { passive: false });
-
-/* ---------------------------------------------------
-   EXTRA SHORTCUTS
---------------------------------------------------- */
 
 document.addEventListener("keydown", (event) => {
 
     if (!pageFlip) return;
 
     switch (event.key) {
-
-        case "ArrowRight":
-            pageFlip.flipNext();
-            break;
-
-        case "ArrowLeft":
-            pageFlip.flipPrev();
-            break;
-
-        case "Home":
-            pageFlip.turnToPage(0);
-            break;
-
-        case "End":
-            pageFlip.turnToPage(TOTAL_PAGES - 1);
-            break;
-
-        case "+":
-            currentZoom = Math.min(currentZoom + 0.1, 2);
-            applyZoom();
-            break;
-
-        case "-":
-            currentZoom = Math.max(currentZoom - 0.1, 0.6);
-            applyZoom();
-            break;
-
+        case "ArrowRight": pageFlip.flipNext(); break;
+        case "ArrowLeft": pageFlip.flipPrev(); break;
+        case "Home": pageFlip.turnToPage(0); break;
+        case "End": pageFlip.turnToPage(TOTAL_PAGES - 1); break;
+        case "+": currentZoom = Math.min(currentZoom + 0.1, 2); applyZoom(); break;
+        case "-": currentZoom = Math.max(currentZoom - 0.1, 0.6); applyZoom(); break;
         case "f":
-        case "F":
-            document.getElementById("fullscreenBtn").click();
-            break;
-
+        case "F": document.getElementById("fullscreenBtn").click(); break;
     }
 
 });
-/* ---------------------------------------------------
-   LOADING
---------------------------------------------------- */
 
 function showLoader() {
-
     flipbook.classList.add("loading");
-
 }
 
 function hideLoader() {
-
     flipbook.classList.remove("loading");
-
 }
-
-
-/* ---------------------------------------------------
-   APPLICATION START
---------------------------------------------------- */
 
 showLoader();
 
 loadPageAspectRatio().then(() => {
-
     initializeBook();
-
     registerEvents();
-
     updatePageIndicator();
-
     applyZoom();
-
 });
-
