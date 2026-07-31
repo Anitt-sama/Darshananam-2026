@@ -16,9 +16,8 @@ const app = document.querySelector("#app");
    HOTSPOTS & HYPERLINKS CONFIGURATION
 --------------------------------------------------- */
 const pageHotspots = {
-    // Table of Contents (Page 3) - Precisely aligned to the visual layout
+    // Table of Contents (Page 3) - Page 2 link completely removed
     3: [
-        { type: "internal", targetPage: 2,  top: "11.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Editorial Board (Already visible on left spread)
         { type: "internal", targetPage: 4,  top: "16.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Chief Editorial
         { type: "internal", targetPage: 5,  top: "21.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Vicar's Message
         { type: "internal", targetPage: 6,  top: "26.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Other Messages
@@ -218,21 +217,13 @@ function createPages() {
                 hotspotEl.style.height = spot.height;
 
                 if (spot.type === "internal") {
-                    if (spot.targetPage === 2) {
-                        hotspotEl.title = "Page 2 is already visible";
-                        hotspotEl.addEventListener("click", (e) => {
-                            e.stopPropagation();
-                            // Special case: Do not flip the page since page 2 is already on the left
-                        });
-                    } else {
-                        hotspotEl.title = `Go to page ${spot.targetPage}`;
-                        hotspotEl.addEventListener("click", (e) => {
-                            e.stopPropagation();
-                            if (pageFlip) {
-                                pageFlip.turnToPage(spot.targetPage - 3);
-                            }
-                        });
-                    }
+                    hotspotEl.title = `Go to page ${spot.targetPage}`;
+                    hotspotEl.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        if (pageFlip) {
+                            pageFlip.turnToPage(spot.targetPage - 3);
+                        }
+                    });
                 } else if (spot.type === "external") {
                     hotspotEl.title = spot.url;
                     hotspotEl.addEventListener("click", (e) => {
