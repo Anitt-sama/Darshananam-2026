@@ -226,19 +226,20 @@ function createPages() {
         if (!pageFlip) return;
 
         if (spot.targetPage === 2) {
-            pageFlip.turnToPage(1); // Special handling for page 2
+            pageFlip.turnToPage(1);
         } else {
             pageFlip.turnToPage(Math.max(0, spot.targetPage - 3));
         }
     });
+
+} else if (spot.type === "external") {
+    hotspotEl.title = spot.url;
+
+    hotspotEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.open(spot.url, "_blank", "noopener,noreferrer");
+    });
 }
-                } else if (spot.type === "external") {
-                    hotspotEl.title = spot.url;
-                    hotspotEl.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        window.open(spot.url, "_blank", "noopener,noreferrer");
-                    });
-                }
 
                 overlay.appendChild(hotspotEl);
             });
