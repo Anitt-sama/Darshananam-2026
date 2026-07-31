@@ -43,20 +43,96 @@ const pageHotspots = {
     height: "12.98%"
   }
 ],
-    27: [{ type: "external", url: "https://example.com/qr-27", top: "35%", left: "35%", width: "30%", height: "30%" }],
-    30: [{ type: "external", url: "https://example.com/qr-30", top: "35%", left: "35%", width: "30%", height: "30%" }],
-    46: [{ type: "external", url: "https://example.com/qr-46", top: "35%", left: "35%", width: "30%", height: "30%" }],
-    47: [{ type: "external", url: "https://example.com/qr-47", top: "35%", left: "35%", width: "30%", height: "30%" }],
-    51: [{ type: "external", url: "https://example.com/qr-51", top: "35%", left: "35%", width: "30%", height: "30%" }],
-    54: [{ type: "external", url: "https://example.com/qr-54", top: "35%", left: "35%", width: "30%", height: "30%" }],
-    57: [{ type: "external", url: "https://example.com/qr-57", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    27: [
+  {
+    type: "external",
+    url: "https://time-echoes-c999c0.netlify.app/",
+    top: "77.46%",
+    left: "79.45%",
+    width: "14.56%",
+    height: "12.49%"
+  }
+],
+    30: [
+  {
+    type: "external",
+    url: "https://operation-phoenix-d075b1.netlify.app/",
+    top: "43.49%",
+    left: "24.21%",
+    width: "46.10%",
+    height: "32.21%"
+  }
+],
+    46: [
+  {
+    type: "external",
+    url: "https://jeevitham-f010db.netlify.app/",
+    top: "16.03%",
+    left: "41.68%",
+    width: "23.39%",
+    height: "18.23%"
+  }
+],
+    47: [
+  {
+    type: "external",
+    url: "Yhttps://escape-room-fa8729.netlify.app/",
+    top: "72.09%",
+    left: "19.93%",
+    width: "29.22%",
+    height: "21.05%"
+  }
+],
+    51: [
+  {
+    type: "external",
+    url: "https://darshanam-quest-b9da1f.netlify.app/",
+    top: "71.56%",
+    left: "9.78%",
+    width: "32.21%",
+    height: "22.21%"
+  }
+],
+    54: [
+  {
+    type: "external",
+    url: "https://long-path-af200e.netlify.app/",
+    top: "79.76%",
+    left: "55.81%",
+    width: "26.25%",
+    height: "18.47%"
+  }
+],
+    57: [
+  {
+    type: "external",
+    url: "https://docs.google.com/forms/d/e/1FAIpQLScadD7Rq9yifgufrYxX5SmU8jamZox6BazNo6cYxkwbDor4vw/viewform?usp=dialog",
+    top: "47.62%",
+    left: "48.60%",
+    width: "13.84%",
+    height: "9.76%"
+  }
+],
 
     // Social Media Links on Page 60
     60: [
-        { type: "external", url: "https://facebook.com/yourpage", top: "45%", left: "25%", width: "15%", height: "10%" },
-        { type: "external", url: "https://instagram.com/yourpage", top: "45%", left: "42%", width: "15%", height: "10%" },
-        { type: "external", url: "https://youtube.com/yourpage", top: "45%", left: "60%", width: "15%", height: "10%" }
-    ]
+        {
+    type: "external",
+    url: "https://www.facebook.com/Karattukunnel",
+    top: "96.15%",
+    left: "2.20%",
+    width: "26.80%",
+    height: "2.85%"
+  }, // Facebook
+        {
+    type: "external",
+    url: "https://www.instagram.com/Karattukunnel_palli",
+    top: "93.35%",
+    left: "2.20%",
+    width: "26.80%",
+    height: "2.85%"
+  }
+    ],
 };
 
 /* ---------------------------------------------------
