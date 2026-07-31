@@ -18,7 +18,7 @@ const app = document.querySelector("#app");
 const pageHotspots = {
     // Table of Contents (Page 3) - Precisely aligned to the visual layout
     3: [
-        { type: "internal", targetPage: 2,  top: "11.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Editorial Board
+        { type: "internal", targetPage: 0,  top: "11.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Editorial Board
         { type: "internal", targetPage: 4,  top: "16.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Chief Editorial
         { type: "internal", targetPage: 5,  top: "21.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Vicar's Message
         { type: "internal", targetPage: 6,  top: "26.5%", left: "8.5%", width: "82.5%", height: "3.5%" }, // Other Messages
