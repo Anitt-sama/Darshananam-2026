@@ -33,7 +33,16 @@ const pageHotspots = {
     ],
 
     // QR Code Pages
-    17: [{ type: "external", url: "https://example.com/qr-17", top: "35%", left: "35%", width: "30%", height: "30%" }],
+    17: [
+  {
+    type: "external",
+    url: "https://break-the-chain-d3be42.netlify.app/",
+    top: "38.93%",
+    left: "24.51%",
+    width: "17.69%",
+    height: "12.98%"
+  }
+],
     27: [{ type: "external", url: "https://example.com/qr-27", top: "35%", left: "35%", width: "30%", height: "30%" }],
     30: [{ type: "external", url: "https://example.com/qr-30", top: "35%", left: "35%", width: "30%", height: "30%" }],
     46: [{ type: "external", url: "https://example.com/qr-46", top: "35%", left: "35%", width: "30%", height: "30%" }],
