@@ -361,7 +361,7 @@ function initializeBook() {
         autoSize: true,
         startPage: 0,
         clickEventForward: true,
-        flippingTime: 650,
+        flippingTime: 500,
         drawShadow: true,
         showPageCorners: true
 
