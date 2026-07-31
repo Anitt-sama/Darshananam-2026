@@ -19,8 +19,8 @@ const pageHotspots = {
     // Table of Contents (Page 3) - Page 2 link completely removed
     3: [
         { type: "internal", targetPage: 4,  top: "20%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Chief Editorial
-  { type: "internal", targetPage: 5,  top: "23.4%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Vicar's Message
-  { type: "internal", targetPage: 6,  top: "26.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Other Messages
+  { type: "internal", targetPage: 5,  top: "24.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Vicar's Message
+  { type: "internal", targetPage: 6,  top: "28.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Other Messages
   { type: "internal", targetPage: 10, top: "33%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Theme Feature
   { type: "internal", targetPage: 14, top: "37.0%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Doctor's Message
   { type: "internal", targetPage: 19, top: "43.4%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Creative and Fun Zone
