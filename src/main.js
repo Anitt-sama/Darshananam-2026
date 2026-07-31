@@ -27,9 +27,9 @@ const pageHotspots = {
   { type: "internal", targetPage: 18, top: "45.75%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Biblical Story
   { type: "internal", targetPage: 22, top: "50%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Meet the Saint
   { type: "internal", targetPage: 24, top: "54.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Articles and Games
-  { type: "internal", targetPage: 38, top: "58.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Darshanam Quest
+  { type: "internal", targetPage: 51, top: "58.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Darshanam Quest
   { type: "internal", targetPage: 52, top: "62.75%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Drawings and Posters
-  { type: "internal", targetPage: 58, top: "66%", left: "8.2%", width: "81.8%", height: "1.6%" }  // Gallery
+  { type: "internal", targetPage: 58, top: "67%", left: "8.2%", width: "81.8%", height: "1.6%" }  // Gallery
     ],
 
     // QR Code Pages
