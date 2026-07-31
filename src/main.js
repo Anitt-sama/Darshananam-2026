@@ -97,8 +97,8 @@ const pageHotspots = {
   {
     type: "external",
     url: "https://long-path-af200e.netlify.app/",
-    top: "79.76%",
-    left: "55.81%",
+    top: "77.76%",
+    left: "53.81%",
     width: "26.25%",
     height: "18.47%"
   }
