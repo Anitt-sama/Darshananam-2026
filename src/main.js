@@ -22,14 +22,14 @@ const pageHotspots = {
   { type: "internal", targetPage: 5,  top: "24.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Vicar's Message
   { type: "internal", targetPage: 6,  top: "28.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Other Messages
   { type: "internal", targetPage: 10, top: "33%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Theme Feature
-  { type: "internal", targetPage: 14, top: "37.25.0%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Doctor's Message
-  { type: "internal", targetPage: 19, top: "41.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Creative and Fun Zone
+  { type: "internal", targetPage: 14, top: "37.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Doctor's Message
+  { type: "internal", targetPage: 16, top: "41.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Creative and Fun Zone
   { type: "internal", targetPage: 18, top: "45.75%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Biblical Story
-  { type: "internal", targetPage: 22, top: "49%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Meet the Saint
-  { type: "internal", targetPage: 24, top: "53.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Articles and Games
-  { type: "internal", targetPage: 38, top: "57.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Darshanam Quest
-  { type: "internal", targetPage: 52, top: "61.75%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Drawings and Posters
-  { type: "internal", targetPage: 58, top: "65%", left: "8.2%", width: "81.8%", height: "1.6%" }  // Gallery
+  { type: "internal", targetPage: 22, top: "50%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Meet the Saint
+  { type: "internal", targetPage: 24, top: "54.25%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Articles and Games
+  { type: "internal", targetPage: 38, top: "58.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Darshanam Quest
+  { type: "internal", targetPage: 52, top: "62.75%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Drawings and Posters
+  { type: "internal", targetPage: 58, top: "66%", left: "8.2%", width: "81.8%", height: "1.6%" }  // Gallery
     ],
 
     // QR Code Pages
