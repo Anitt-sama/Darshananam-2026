@@ -47,8 +47,8 @@ const pageHotspots = {
   {
     type: "external",
     url: "https://time-echoes-c999c0.netlify.app/",
-    top: "77.46%",
-    left: "79.45%",
+    top: "75.46%",
+    left: "7.45%",
     width: "14.56%",
     height: "12.49%"
   }
@@ -67,7 +67,7 @@ const pageHotspots = {
   {
     type: "external",
     url: "https://jeevitham-f010db.netlify.app/",
-    top: "16.03%",
+    top: "18.03%",
     left: "41.68%",
     width: "23.39%",
     height: "18.23%"
@@ -87,8 +87,8 @@ const pageHotspots = {
   {
     type: "external",
     url: "https://darshanam-quest-b9da1f.netlify.app/",
-    top: "71.56%",
-    left: "9.78%",
+    top: "69.56%",
+    left: "7.78%",
     width: "32.21%",
     height: "22.21%"
   }
