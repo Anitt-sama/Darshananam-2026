@@ -222,7 +222,7 @@ function createPages() {
                     hotspotEl.addEventListener("click", (e) => {
                         e.stopPropagation();
                         if (pageFlip) {
-                            pageFlip.turnToPage(spot.targetPage - 1);
+                            pageFlip.turnToPage(spot.targetPage - 3);
                         }
                     });
                 } else if (spot.type === "external") {
