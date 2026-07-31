@@ -39,23 +39,23 @@ app.innerHTML = `
 
         <div class="toolbar-right">
 
-            <button id="zoomOut">
+            <button id="zoomOut" title="Zoom Out">
                 −
             </button>
 
-            <button id="zoomIn">
+            <button id="zoomIn" title="Zoom In">
                 +
             </button>
 
-            <button id="fullscreenBtn">
+            <button id="fullscreenBtn" title="Fullscreen">
                 ⛶
             </button>
 
-            <button id="nextBtn">
+            <button id="nextBtn" title="Next Page">
                 ▶
             </button>
 
-            <button id="lastBtn">
+            <button id="lastBtn" title="Last Page">
                 ⏭
             </button>
 
@@ -85,18 +85,19 @@ function getBookSize() {
 
         return {
 
-            width: Math.min(w * 0.92, 450),
-            height: Math.min(h * 0.82, 700),
+            width: Math.min(w * 0.95, 500),
+            height: Math.min(h * 0.85, 750),
             mobile: true
 
         };
 
     }
 
+    /* Increased size proportions so it is no longer too small at 100% zoom */
     return {
 
-       width: Math.min(w * 0.55, 850),
-height: Math.min(h * 0.90, 950),
+        width: Math.min(w * 0.75, 1100),
+        height: Math.min(h * 0.90, 1100),
         mobile: false
 
     };
@@ -117,25 +118,26 @@ function createPages() {
         page.style.border = "none";
         page.style.boxShadow = "none";
         page.style.overflow = "hidden";
-       const image = document.createElement("img");
+        
+        const image = document.createElement("img");
 
-image.decoding = "async";
+        image.decoding = "async";
 
-if (i <= 4) {
-    image.loading = "eager";
-    image.fetchPriority = "high";
-} else {
-    image.loading = "lazy";
-}
-                image.style.width = "100%";
+        if (i <= 4) {
+            image.loading = "eager";
+            image.fetchPriority = "high";
+        } else {
+            image.loading = "lazy";
+        }
+
+        image.style.width = "100%";
         image.style.height = "100%";
-        image.style.objectFit = "cover";
+        image.style.objectFit = "contain";
         image.style.display = "block";
 
         image.draggable = false;
 
-        image.src =
-            `/pages/page${String(i).padStart(3, "0")}.jpg`;
+        image.src = `/pages/page${String(i).padStart(3, "0")}.jpg`;
 
         image.alt = `Page ${i}`;
 
@@ -161,13 +163,13 @@ function initializeBook() {
 
         height: size.height,
 
-        minWidth: 250,
+        minWidth: 300,
 
-        maxWidth: 900,
+        maxWidth: 1200,
 
-        minHeight: 350,
+        minHeight: 400,
 
-        maxHeight: 1200,
+        maxHeight: 1400,
 
         size: "stretch",
 
@@ -287,30 +289,22 @@ flipbook.addEventListener("wheel", (event) => {
 --------------------------------------------------- */
 
 function applyZoom() {
-
     zoomWrapper.style.transform = `scale(${currentZoom})`;
-zoomWrapper.style.transformOrigin = "center center";
-
+    zoomWrapper.style.transformOrigin = "center center";
 }
 
 document
     .getElementById("zoomIn")
     .addEventListener("click", () => {
-
-        currentZoom = Math.min(currentZoom + 0.1, 2);
-
+        currentZoom = Math.min(currentZoom + 0.15, 2.5);
         applyZoom();
-
     });
 
 document
     .getElementById("zoomOut")
     .addEventListener("click", () => {
-
-        currentZoom = Math.max(currentZoom - 0.1, 0.6);
-
+        currentZoom = Math.max(currentZoom - 0.15, 0.6);
         applyZoom();
-
     });
 
 /* ---------------------------------------------------
@@ -371,11 +365,6 @@ function registerEvents() {
 
 }
 
-
-/* ---------------------------------------------------
-   STARTUP
---------------------------------------------------- */
-
 /* ---------------------------------------------------
    RESPONSIVE RESIZE
 --------------------------------------------------- */
@@ -390,31 +379,28 @@ window.addEventListener("resize", () => {
 
         if (!pageFlip) return;
 
-       const currentPage = pageFlip.getCurrentPageIndex();
-const savedZoom = currentZoom;
+        const currentPage = pageFlip.getCurrentPageIndex();
+        const savedZoom = currentZoom;
 
-pageFlip.destroy();
+        pageFlip.destroy();
 
-initializeBook();
+        initializeBook();
 
-registerEvents();
+        registerEvents();
 
-pageFlip.turnToPage(currentPage);
+        pageFlip.turnToPage(currentPage);
 
-currentZoom = savedZoom;
+        currentZoom = savedZoom;
 
-setTimeout(() => {
-    updatePageIndicator();
-}, 50);
-
-        updatePageIndicator();
+        setTimeout(() => {
+            updatePageIndicator();
+        }, 50);
 
         applyZoom();
 
     }, 300);
 
 });
-
 
 /* ---------------------------------------------------
    IMAGE PROTECTION
@@ -452,7 +438,7 @@ window.addEventListener("wheel", (event) => {
     else
         currentZoom -= 0.05;
 
-    currentZoom = Math.max(0.6, Math.min(currentZoom, 2));
+    currentZoom = Math.max(0.6, Math.min(currentZoom, 2.5));
 
     applyZoom();
 
@@ -485,12 +471,13 @@ document.addEventListener("keydown", (event) => {
             break;
 
         case "+":
-            currentZoom = Math.min(currentZoom + 0.1, 2);
+        case "=":
+            currentZoom = Math.min(currentZoom + 0.15, 2.5);
             applyZoom();
             break;
 
         case "-":
-            currentZoom = Math.max(currentZoom - 0.1, 0.6);
+            currentZoom = Math.max(currentZoom - 0.15, 0.6);
             applyZoom();
             break;
 
@@ -502,6 +489,7 @@ document.addEventListener("keydown", (event) => {
     }
 
 });
+
 /* ---------------------------------------------------
    LOADING
 --------------------------------------------------- */
@@ -518,7 +506,6 @@ function hideLoader() {
 
 }
 
-
 /* ---------------------------------------------------
    APPLICATION START
 --------------------------------------------------- */
@@ -534,4 +521,3 @@ updatePageIndicator();
 applyZoom();
 
 hideLoader();
-
