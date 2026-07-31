@@ -6,6 +6,10 @@ const TOTAL_PAGES = 60;
 let pageFlip;
 let currentZoom = 1;
 
+// Fallback aspect ratio (width/height) used only until the real first-page
+// image loads and tells us its actual dimensions.
+let pageAspectRatio = 0.78;
+
 const app = document.querySelector("#app");
 
 /* ---------------------------------------------------
@@ -76,30 +80,58 @@ const flipbook = document.getElementById("flipbook");
 const zoomWrapper = document.getElementById("zoomWrapper");
 const indicator = document.getElementById("pageIndicator");
 
+function loadPageAspectRatio() {
+
+    return new Promise((resolve) => {
+
+        const probe = new Image();
+
+        probe.onload = () => {
+
+            if (probe.naturalWidth && probe.naturalHeight) {
+                pageAspectRatio = probe.naturalWidth / probe.naturalHeight;
+            }
+
+            resolve();
+
+        };
+
+        probe.onerror = () => resolve();
+
+        probe.src = "/pages/page001.jpg";
+
+    });
+
+}
+
 function getBookSize() {
 
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    if (w < 900) {
+    const mobile = w < 900;
 
-        return {
+    // Maximum space available for a single page, before fitting the
+    // real image aspect ratio inside it.
+    const maxPageWidth = mobile
+        ? Math.min(w * 0.92, 450)
+        : Math.min(w * 0.55, 850);
 
-            width: Math.min(w * 0.92, 450),
-            height: Math.min(h * 0.82, 700),
-            mobile: true
+    const maxPageHeight = mobile
+        ? Math.min(h * 0.82, 700)
+        : Math.min(h * 0.90, 950);
 
-        };
+    // Fit a box of the real page aspect ratio inside those bounds, so the
+    // page image always fills it exactly — no cropping, no letterbox gap.
+    let width = maxPageWidth;
+    let height = width / pageAspectRatio;
 
+    if (height > maxPageHeight) {
+        height = maxPageHeight;
+        width = height * pageAspectRatio;
     }
 
-    return {
-
-       width: Math.min(w * 0.55, 850),
-height: Math.min(h * 0.90, 950),
-        mobile: false
-
-    };
+    return { width, height, mobile };
 
 }
 
@@ -129,7 +161,7 @@ if (i <= 4) {
 }
                 image.style.width = "100%";
         image.style.height = "100%";
-        image.style.objectFit = "contain";
+        image.style.objectFit = "cover";
         image.style.display = "block";
 
         image.draggable = false;
@@ -532,11 +564,15 @@ function hideLoader() {
 
 showLoader();
 
-initializeBook();
+loadPageAspectRatio().then(() => {
 
-registerEvents();
+    initializeBook();
 
-updatePageIndicator();
+    registerEvents();
 
-applyZoom();
+    updatePageIndicator();
+
+    applyZoom();
+
+});
 
