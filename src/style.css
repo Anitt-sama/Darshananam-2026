@@ -149,19 +149,15 @@ body,
 ========================================== */
 
 #bookWrapper{
-
     flex:1;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     overflow:auto;
 
     padding:30px;
 
+    min-height:0;
 }
 
 /* ==========================================
