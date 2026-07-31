@@ -1,3 +1,4 @@
+import "./style.css";
 import { PageFlip } from "page-flip";
 
 const TOTAL_PAGES = 60;
