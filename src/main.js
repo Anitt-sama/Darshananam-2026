@@ -18,18 +18,18 @@ const app = document.querySelector("#app");
 const pageHotspots = {
     // Table of Contents (Page 3) - Page 2 link completely removed
     3: [
-        { type: "internal", targetPage: 4,  top: "16.4%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Chief Editorial
-  { type: "internal", targetPage: 5,  top: "21.4%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Vicar's Message
-  { type: "internal", targetPage: 6,  top: "26.5%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Other Messages
-  { type: "internal", targetPage: 10, top: "31.8%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Theme Feature
-  { type: "internal", targetPage: 14, top: "37.0%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Doctor's Message
-  { type: "internal", targetPage: 19, top: "43.4%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Creative and Fun Zone
-  { type: "internal", targetPage: 18, top: "48.2%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Biblical Story
-  { type: "internal", targetPage: 22, top: "54.4%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Meet the Saint
-  { type: "internal", targetPage: 24, top: "60.0%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Articles and Games
-  { type: "internal", targetPage: 38, top: "66.2%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Darshanam Quest
-  { type: "internal", targetPage: 52, top: "72.2%", left: "8.2%", width: "81.8%", height: "3.6%" }, // Drawings and Posters
-  { type: "internal", targetPage: 58, top: "78.2%", left: "8.2%", width: "81.8%", height: "3.6%" }  // Gallery
+        { type: "internal", targetPage: 4,  top: "16.4%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Chief Editorial
+  { type: "internal", targetPage: 5,  top: "21.4%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Vicar's Message
+  { type: "internal", targetPage: 6,  top: "26.5%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Other Messages
+  { type: "internal", targetPage: 10, top: "31.8%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Theme Feature
+  { type: "internal", targetPage: 14, top: "37.0%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Doctor's Message
+  { type: "internal", targetPage: 19, top: "43.4%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Creative and Fun Zone
+  { type: "internal", targetPage: 18, top: "48.2%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Biblical Story
+  { type: "internal", targetPage: 22, top: "54.4%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Meet the Saint
+  { type: "internal", targetPage: 24, top: "60.0%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Articles and Games
+  { type: "internal", targetPage: 38, top: "66.2%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Darshanam Quest
+  { type: "internal", targetPage: 52, top: "72.2%", left: "8.2%", width: "81.8%", height: "1.6%" }, // Drawings and Posters
+  { type: "internal", targetPage: 58, top: "78.2%", left: "8.2%", width: "81.8%", height: "1.6%" }  // Gallery
     ],
 
     // QR Code Pages
