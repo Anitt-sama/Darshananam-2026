@@ -231,7 +231,7 @@ body,
 
 }
 
-/* Make every page occupy full area without cropping */
+/* Make every page occupy full area */
 
 .page img{
 
@@ -241,7 +241,7 @@ body,
 
     height:100%;
 
-    object-fit:contain; /* Fixed: changed from cover to contain to prevent cutting tops/bottoms */
+    object-fit:contain;
 
     user-select:none;
 
@@ -285,7 +285,6 @@ body,
 #zoomWrapper{
     transition: transform .25s ease;
     transform-origin: center center;
-    pointer-events: auto;
 }
 
 /* Loading */

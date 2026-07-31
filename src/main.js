@@ -39,23 +39,23 @@ app.innerHTML = `
 
         <div class="toolbar-right">
 
-            <button id="zoomOut" title="Zoom Out">
+            <button id="zoomOut">
                 −
             </button>
 
-            <button id="zoomIn" title="Zoom In">
+            <button id="zoomIn">
                 +
             </button>
 
-            <button id="fullscreenBtn" title="Fullscreen">
+            <button id="fullscreenBtn">
                 ⛶
             </button>
 
-            <button id="nextBtn" title="Next Page">
+            <button id="nextBtn">
                 ▶
             </button>
 
-            <button id="lastBtn" title="Last Page">
+            <button id="lastBtn">
                 ⏭
             </button>
 
@@ -81,23 +81,22 @@ function getBookSize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    if (w < 768) {
+    if (w < 900) {
 
         return {
 
-            width: Math.min(w * 0.95, 500),
-            height: Math.min(h * 0.85, 750),
+            width: Math.min(w * 0.92, 450),
+            height: Math.min(h * 0.82, 700),
             mobile: true
 
         };
 
     }
 
-    /* Increased size proportions so it is no longer too small at 100% zoom */
     return {
 
-        width: Math.min(w * 0.75, 1100),
-        height: Math.min(h * 0.90, 1100),
+       width: Math.min(w * 0.55, 850),
+height: Math.min(h * 0.90, 950),
         mobile: false
 
     };
@@ -118,26 +117,25 @@ function createPages() {
         page.style.border = "none";
         page.style.boxShadow = "none";
         page.style.overflow = "hidden";
-        
-        const image = document.createElement("img");
+       const image = document.createElement("img");
 
-        image.decoding = "async";
+image.decoding = "async";
 
-        if (i <= 4) {
-            image.loading = "eager";
-            image.fetchPriority = "high";
-        } else {
-            image.loading = "lazy";
-        }
-
-        image.style.width = "100%";
+if (i <= 4) {
+    image.loading = "eager";
+    image.fetchPriority = "high";
+} else {
+    image.loading = "lazy";
+}
+                image.style.width = "100%";
         image.style.height = "100%";
         image.style.objectFit = "contain";
         image.style.display = "block";
 
         image.draggable = false;
 
-        image.src = `/pages/page${String(i).padStart(3, "0")}.jpg`;
+        image.src =
+            `/pages/page${String(i).padStart(3, "0")}.jpg`;
 
         image.alt = `Page ${i}`;
 
@@ -155,6 +153,15 @@ function initializeBook() {
 
     const size = getBookSize();
 
+    // PageFlip sets #flipbook's CSS width to 100% in stretch/autoSize mode.
+    // Without an explicit size here, #zoomWrapper (its parent) has nothing
+    // real to resolve that 100% against, and the book collapses to its
+    // minWidth/minHeight floor instead of the size computed above.
+    const totalWidth = size.mobile ? size.width : size.width * 2;
+
+    zoomWrapper.style.width = `${totalWidth}px`;
+    zoomWrapper.style.height = `${size.height}px`;
+
     flipbook.innerHTML = "";
 
     pageFlip = new PageFlip(flipbook, {
@@ -163,13 +170,13 @@ function initializeBook() {
 
         height: size.height,
 
-        minWidth: 300,
+        minWidth: 250,
 
-        maxWidth: 1200,
+        maxWidth: 900,
 
-        minHeight: 400,
+        minHeight: 350,
 
-        maxHeight: 1400,
+        maxHeight: 1200,
 
         size: "stretch",
 
@@ -269,6 +276,11 @@ let wheelTimeout;
 
 flipbook.addEventListener("wheel", (event) => {
 
+    if (event.ctrlKey) {
+        // Let the window-level ctrl+wheel handler zoom instead of flipping pages
+        return;
+    }
+
     event.preventDefault();
 
     clearTimeout(wheelTimeout);
@@ -289,22 +301,30 @@ flipbook.addEventListener("wheel", (event) => {
 --------------------------------------------------- */
 
 function applyZoom() {
+
     zoomWrapper.style.transform = `scale(${currentZoom})`;
-    zoomWrapper.style.transformOrigin = "center center";
+zoomWrapper.style.transformOrigin = "center center";
+
 }
 
 document
     .getElementById("zoomIn")
     .addEventListener("click", () => {
-        currentZoom = Math.min(currentZoom + 0.15, 2.5);
+
+        currentZoom = Math.min(currentZoom + 0.1, 2);
+
         applyZoom();
+
     });
 
 document
     .getElementById("zoomOut")
     .addEventListener("click", () => {
-        currentZoom = Math.max(currentZoom - 0.15, 0.6);
+
+        currentZoom = Math.max(currentZoom - 0.1, 0.6);
+
         applyZoom();
+
     });
 
 /* ---------------------------------------------------
@@ -365,6 +385,11 @@ function registerEvents() {
 
 }
 
+
+/* ---------------------------------------------------
+   STARTUP
+--------------------------------------------------- */
+
 /* ---------------------------------------------------
    RESPONSIVE RESIZE
 --------------------------------------------------- */
@@ -380,7 +405,6 @@ window.addEventListener("resize", () => {
         if (!pageFlip) return;
 
         const currentPage = pageFlip.getCurrentPageIndex();
-        const savedZoom = currentZoom;
 
         pageFlip.destroy();
 
@@ -390,17 +414,14 @@ window.addEventListener("resize", () => {
 
         pageFlip.turnToPage(currentPage);
 
-        currentZoom = savedZoom;
-
-        setTimeout(() => {
-            updatePageIndicator();
-        }, 50);
+        updatePageIndicator();
 
         applyZoom();
 
     }, 300);
 
 });
+
 
 /* ---------------------------------------------------
    IMAGE PROTECTION
@@ -438,7 +459,7 @@ window.addEventListener("wheel", (event) => {
     else
         currentZoom -= 0.05;
 
-    currentZoom = Math.max(0.6, Math.min(currentZoom, 2.5));
+    currentZoom = Math.max(0.6, Math.min(currentZoom, 2));
 
     applyZoom();
 
@@ -471,13 +492,12 @@ document.addEventListener("keydown", (event) => {
             break;
 
         case "+":
-        case "=":
-            currentZoom = Math.min(currentZoom + 0.15, 2.5);
+            currentZoom = Math.min(currentZoom + 0.1, 2);
             applyZoom();
             break;
 
         case "-":
-            currentZoom = Math.max(currentZoom - 0.15, 0.6);
+            currentZoom = Math.max(currentZoom - 0.1, 0.6);
             applyZoom();
             break;
 
@@ -489,7 +509,6 @@ document.addEventListener("keydown", (event) => {
     }
 
 });
-
 /* ---------------------------------------------------
    LOADING
 --------------------------------------------------- */
@@ -506,6 +525,7 @@ function hideLoader() {
 
 }
 
+
 /* ---------------------------------------------------
    APPLICATION START
 --------------------------------------------------- */
@@ -520,4 +540,3 @@ updatePageIndicator();
 
 applyZoom();
 
-hideLoader();
