@@ -158,7 +158,7 @@ body,
 
     align-items:center;
 
-    overflow:hidden;
+    overflow:auto;
 
     padding:30px;
 
@@ -170,16 +170,13 @@ body,
 
 #flipbook{
 
-    transition:
-        transform .25s ease;
-
-    transform-origin:center center;
-
     display:flex;
 
     justify-content:center;
 
     align-items:center;
+
+    filter:drop-shadow(0 22px 45px rgba(0,0,0,.55));
 
 }
 
@@ -196,6 +193,12 @@ body,
 .stf__itemInner{
 
     background:transparent !important;
+
+    backface-visibility:hidden;
+
+    transform:translateZ(0);
+
+    will-change:transform;
 
 }
 
@@ -223,6 +226,12 @@ body,
     justify-content:center;
 
     align-items:center;
+
+    backface-visibility:hidden;
+
+    transform:translateZ(0);
+
+    will-change:transform;
 
 }
 
@@ -277,13 +286,9 @@ body,
 }
 
 /* Book shadow */
-
-#flipbook{
-
-    filter:
-
-        drop-shadow(0 22px 45px rgba(0,0,0,.55));
-
+#zoomWrapper{
+    transition: transform .25s ease;
+    transform-origin: center center;
 }
 
 /* Loading */
@@ -359,7 +364,7 @@ img{
 
     #bookWrapper{
 
-        padding:15px;
+        padding:10px;
 
     }
 

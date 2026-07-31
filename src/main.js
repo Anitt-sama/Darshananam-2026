@@ -62,16 +62,17 @@ app.innerHTML = `
 
     </header>
 
-    <main id="bookWrapper">
-
+   <main id="bookWrapper">
+    <div id="zoomWrapper">
         <div id="flipbook"></div>
-
-    </main>
+    </div>
+</main>
 
 </div>
 `;
 
 const flipbook = document.getElementById("flipbook");
+const zoomWrapper = document.getElementById("zoomWrapper");
 const indicator = document.getElementById("pageIndicator");
 
 function getBookSize() {
@@ -93,8 +94,8 @@ function getBookSize() {
 
     return {
 
-        width: Math.min(w * 0.38, 620),
-        height: Math.min(h * 0.82, 860),
+        width: Math.min(w * 0.42, 650),
+        height: Math.min(h * 0.85, 760),
         mobile: false
 
     };
@@ -115,16 +116,22 @@ function createPages() {
         page.style.border = "none";
         page.style.boxShadow = "none";
         page.style.overflow = "hidden";
+       const image = document.createElement("img");
 
-        const image = document.createElement("img");
-        image.style.width = "100%";
+image.decoding = "async";
+
+if (i <= 4) {
+    image.loading = "eager";
+    image.fetchPriority = "high";
+} else {
+    image.loading = "lazy";
+}
+                image.style.width = "100%";
         image.style.height = "100%";
         image.style.objectFit = "cover";
         image.style.display = "block";
 
         image.draggable = false;
-
-        image.loading = "lazy";
 
         image.src =
             `/pages/page${String(i).padStart(3, "0")}.jpg`;
@@ -177,7 +184,7 @@ function initializeBook() {
 
         clickEventForward: true,
 
-        flippingTime: 900,
+        flippingTime: 650,
 
         drawShadow: true,
 
@@ -252,44 +259,6 @@ document
     .addEventListener("click", lastPage);
 
 /* ---------------------------------------------------
-   KEYBOARD
---------------------------------------------------- */
-
-document.addEventListener("keydown", (event) => {
-
-    if (!pageFlip) return;
-
-    switch (event.key) {
-
-        case "ArrowRight":
-
-            pageFlip.flipNext();
-
-            break;
-
-        case "ArrowLeft":
-
-            pageFlip.flipPrev();
-
-            break;
-
-        case "Home":
-
-            pageFlip.turnToPage(0);
-
-            break;
-
-        case "End":
-
-            pageFlip.turnToPage(TOTAL_PAGES - 1);
-
-            break;
-
-    }
-
-});
-
-/* ---------------------------------------------------
    MOUSE WHEEL
 --------------------------------------------------- */
 
@@ -308,7 +277,7 @@ flipbook.addEventListener("wheel", (event) => {
         else
             pageFlip.flipPrev();
 
-    }, 100);
+    }, 180);
 
 }, { passive: false });
 
@@ -318,8 +287,8 @@ flipbook.addEventListener("wheel", (event) => {
 
 function applyZoom() {
 
-    flipbook.style.transform = `scale(${currentZoom})`;
-flipbook.style.transformOrigin = "center center";
+    zoomWrapper.style.transform = `scale(${currentZoom})`;
+zoomWrapper.style.transformOrigin = "center center";
 
 }
 
@@ -349,20 +318,25 @@ document
 
 document
     .getElementById("fullscreenBtn")
-    .addEventListener("click", () => {
+    .addEventListener("click", async () => {
 
-        const viewer =
-            document.getElementById("viewer");
+        const viewer = document.getElementById("viewer");
 
-        if (!document.fullscreenElement) {
+        try {
 
-            viewer.requestFullscreen?.();
+            if (!document.fullscreenElement) {
 
-        }
+                await viewer.requestFullscreen();
 
-        else {
+            } else {
 
-            document.exitFullscreen?.();
+                await document.exitFullscreen();
+
+            }
+
+        } catch (error) {
+
+            console.error("Fullscreen failed:", error);
 
         }
 
@@ -415,15 +389,18 @@ window.addEventListener("resize", () => {
 
         if (!pageFlip) return;
 
-        const currentPage = pageFlip.getCurrentPageIndex();
+       const currentPage = pageFlip.getCurrentPageIndex();
+const savedZoom = currentZoom;
 
-        pageFlip.destroy();
+pageFlip.destroy();
 
-        initializeBook();
+initializeBook();
 
-        registerEvents();
+registerEvents();
 
-        pageFlip.turnToPage(currentPage);
+pageFlip.turnToPage(currentPage);
+
+currentZoom = savedZoom;
 
 setTimeout(() => {
     updatePageIndicator();
@@ -437,33 +414,6 @@ setTimeout(() => {
 
 });
 
-/* ---------------------------------------------------
-   TOUCH SUPPORT
---------------------------------------------------- */
-
-let touchStartX = 0;
-
-flipbook.addEventListener("touchstart", (event) => {
-
-    touchStartX = event.changedTouches[0].clientX;
-
-});
-
-flipbook.addEventListener("touchend", (event) => {
-
-    const touchEndX = event.changedTouches[0].clientX;
-
-    const difference = touchStartX - touchEndX;
-
-    if (Math.abs(difference) < 50)
-        return;
-
-    if (difference > 0)
-        nextPage();
-    else
-        previousPage();
-
-});
 
 /* ---------------------------------------------------
    IMAGE PROTECTION
@@ -513,32 +463,44 @@ window.addEventListener("wheel", (event) => {
 
 document.addEventListener("keydown", (event) => {
 
-    if (event.key === "+") {
+    if (!pageFlip) return;
 
-        currentZoom = Math.min(currentZoom + 0.1, 2);
+    switch (event.key) {
 
-        applyZoom();
+        case "ArrowRight":
+            pageFlip.flipNext();
+            break;
 
-    }
+        case "ArrowLeft":
+            pageFlip.flipPrev();
+            break;
 
-    if (event.key === "-") {
+        case "Home":
+            pageFlip.turnToPage(0);
+            break;
 
-        currentZoom = Math.max(currentZoom - 0.1, 0.6);
+        case "End":
+            pageFlip.turnToPage(TOTAL_PAGES - 1);
+            break;
 
-        applyZoom();
+        case "+":
+            currentZoom = Math.min(currentZoom + 0.1, 2);
+            applyZoom();
+            break;
 
-    }
+        case "-":
+            currentZoom = Math.max(currentZoom - 0.1, 0.6);
+            applyZoom();
+            break;
 
-    if (event.key.toLowerCase() === "f") {
-
-        document
-            .getElementById("fullscreenBtn")
-            .click();
+        case "f":
+        case "F":
+            document.getElementById("fullscreenBtn").click();
+            break;
 
     }
 
 });
-
 /* ---------------------------------------------------
    LOADING
 --------------------------------------------------- */
