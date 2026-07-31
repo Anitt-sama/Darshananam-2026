@@ -401,3 +401,8 @@ img{
     }
 
 }
+
+#zoomWrapper {
+    transition: transform .25s ease;
+    transform-origin: center center;
+}

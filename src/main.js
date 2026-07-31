@@ -95,8 +95,8 @@ function getBookSize() {
 
     return {
 
-        width: Math.min(w * 0.42, 650),
-        height: Math.min(h * 0.85, 760),
+       width: Math.min(w * 0.55, 850),
+height: Math.min(h * 0.90, 950),
         mobile: false
 
     };
