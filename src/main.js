@@ -370,7 +370,7 @@ function updatePageIndicator() {
 document.getElementById("nextBtn").addEventListener("click", () => { if (pageFlip) pageFlip.flipNext(); });
 document.getElementById("prevBtn").addEventListener("click", () => { if (pageFlip) pageFlip.flipPrev(); });
 document.getElementById("firstBtn").addEventListener("click", () => { if (pageFlip) pageFlip.turnToPage(0); });
-document.getElementById("lastBtn").addEventListener("click", () => { if (pageFlip) pageFlip.turnToPage(TOTAL_PAGES - 1); });
+document.getElementById("lastBtn").addEventListener("click", () => { if (pageFlip) pageFlip.turnToPage(TOTAL_PAGES - 3); });
 
 document.getElementById("zoomIn").addEventListener("click", () => {
     currentZoom = Math.min(currentZoom + 0.5, 3);
