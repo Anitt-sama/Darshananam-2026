@@ -29,12 +29,12 @@ const pageHotspots = {
 
     // QR Code Pages
     17: [{ type: "external", url: "https://break-the-chain-d3be42.netlify.app/", top: "38.93%", left: "24.51%", width: "17.69%", height: "12.98%" }],
-    27: [{ type: "external", url: "https://time-echoes-c999c0.netlify.app/", top: "75.46%", left: "77.45%", width: "14.56%", height: "12.49%" }],
-    30: [{ type: "external", url: "https://operation-phoenix-d075b1.netlify.app/", top: "43.49%", left: "24.21%", width: "46.10%", height: "32.21%" }],
-    46: [{ type: "external", url: "https://jeevitham-f010db.netlify.app/", top: "18.03%", left: "41.68%", width: "23.39%", height: "18.23%" }],
+    27: [{ type: "external", url: "https://anitt-sama.github.io/Time-echoes/", top: "75.46%", left: "77.45%", width: "14.56%", height: "12.49%" }],
+    30: [{ type: "external", url: "https://anitt-sama.github.io/Operation-Phoenix/", top: "43.49%", left: "24.21%", width: "46.10%", height: "32.21%" }],
+    46: [{ type: "external", url: "https://anitt-sama.github.io/Jeevitham/", top: "18.03%", left: "41.68%", width: "23.39%", height: "18.23%" }],
     47: [{ type: "external", url: "https://escape-room-fa8729.netlify.app/", top: "72.09%", left: "19.93%", width: "29.22%", height: "21.05%" }],
     51: [{ type: "external", url: "https://darshanam-quest-b9da1f.netlify.app/", top: "70%", left: "8.48%", width: "32.21%", height: "22.21%" }],
-    54: [{ type: "external", url: "https://long-path-af200e.netlify.app/", top: "77.76%", left: "53.81%", width: "26.25%", height: "18.47%" }],
+    54: [{ type: "external", url: "https://anitt-sama.github.io/Long/", top: "77.76%", left: "53.81%", width: "26.25%", height: "18.47%" }],
     57: [{ type: "external", url: "https://docs.google.com/forms/d/e/1FAIpQLScadD7Rq9yifgufrYxX5SmU8jamZox6BazNo6cYxkwbDor4vw/viewform?usp=dialog", top: "47.62%", left: "48.60%", width: "13.84%", height: "9.76%" }],
 
     // Social Media Links on Page 60
