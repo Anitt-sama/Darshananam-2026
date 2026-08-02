@@ -161,7 +161,7 @@ function createPages() {
                     hotspotEl.addEventListener("click", (e) => {
                         e.stopPropagation();
                         if (pageFlip) {
-                            pageFlip.turnToPage(spot.targetPage - 3); // Based on your offset mapping
+                            pageFlip.turnToPage(spot.targetPage - 1); // Fixed zero-based offset mapping
                         }
                     });
                 } else if (spot.type === "external") {
@@ -204,7 +204,7 @@ function initializeBook() {
         size: "stretch",
         maxShadowOpacity: 0.45,
         showCover: true,
-        useMouseEvents: false,     // MUST be false to disable default tap-to-flip[cite: 5]
+        useMouseEvents: false,
         mobileScrollSupport: false, 
         usePortrait: size.mobile,
         autoSize: true,
@@ -370,7 +370,7 @@ function updatePageIndicator() {
 document.getElementById("nextBtn").addEventListener("click", () => { if (pageFlip) pageFlip.flipNext(); });
 document.getElementById("prevBtn").addEventListener("click", () => { if (pageFlip) pageFlip.flipPrev(); });
 document.getElementById("firstBtn").addEventListener("click", () => { if (pageFlip) pageFlip.turnToPage(0); });
-document.getElementById("lastBtn").addEventListener("click", () => { if (pageFlip) pageFlip.turnToPage(TOTAL_PAGES - 3); });
+document.getElementById("lastBtn").addEventListener("click", () => { if (pageFlip) pageFlip.turnToPage(TOTAL_PAGES - 1); }); // Fixed zero-based offset mapping
 
 document.getElementById("zoomIn").addEventListener("click", () => {
     currentZoom = Math.min(currentZoom + 0.5, 3);
@@ -430,7 +430,7 @@ document.addEventListener("keydown", (event) => {
         case "ArrowRight": pageFlip.flipNext(); break;
         case "ArrowLeft": pageFlip.flipPrev(); break;
         case "Home": pageFlip.turnToPage(0); break;
-        case "End": pageFlip.turnToPage(TOTAL_PAGES - 1); break;
+        case "End": pageFlip.turnToPage(TOTAL_PAGES - 1); break; // Note: End key already used TOTAL_PAGES - 1 correctly
         case "+": currentZoom = Math.min(currentZoom + 0.5, 3); applyZoom(true); break;
         case "-": currentZoom = Math.max(currentZoom - 0.5, 1); applyZoom(true); break;
         case "f":
